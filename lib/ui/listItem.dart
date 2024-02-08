@@ -1,10 +1,10 @@
-import 'package:doclense/category.dart';
-import 'package:doclense/details_page.dart';
-import 'package:doclense/leftDrawer.dart';
+import 'package:doclense/ui/category.dart';
+import 'package:doclense/data/repositories/post_repo.dart';
+import 'package:doclense/ui/details_page.dart';
+import 'package:doclense/ui/leftDrawer.dart';
 
-import 'package:doclense/notifications.dart';
-import 'package:doclense/profile.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:doclense/ui/notifications.dart';
+import 'package:doclense/ui/profile.dart';
 import 'package:flutter/material.dart';
 
 var arrayNames = [
@@ -42,12 +42,19 @@ class _HomePageState extends State<HomePage> {
   String page = 'Home';
 
   int _currentIndex = 0;
+
   List body = [
     ListItems(),
     Category(),
     Notifications(),
     Profile(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    PostRepository().fetchPosts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +64,7 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
+        backgroundColor: Colors.blueGrey[100],
         onTap: (int newIndex) {
           setState(() {
             _currentIndex = newIndex;

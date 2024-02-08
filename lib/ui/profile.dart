@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:doclense/contact.dart';
+import 'package:doclense/routing/routes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -87,7 +87,7 @@ class _ProfileState extends State<Profile> {
                     )),
               ),
               const SizedBox(height: 11),
-              DropdownMenu(
+              const DropdownMenu(
                 dropdownMenuEntries: [
                   DropdownMenuEntry(value: Colors.blue, label: 'Male'),
                   DropdownMenuEntry(value: Colors.pink, label: 'Female')
@@ -99,10 +99,7 @@ class _ProfileState extends State<Profile> {
               Positioned(
                 bottom: 11,
                 right: 11,
-                child: Container(
-                  child:
-                      ElevatedButton(onPressed: () {}, child: Text("Update")),
-                ),
+                child: ElevatedButton(onPressed: () {}, child: Text("Update")),
               ),
               Positioned(
                 bottom: 11,
@@ -110,10 +107,12 @@ class _ProfileState extends State<Profile> {
                 child: Container(
                   child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ContactPage()));
+                        //   Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) => ContactPage()));
+
+                        Navigator.pushNamed(context, Routes.contact);
                       },
                       child: Text("Contact")),
                 ),

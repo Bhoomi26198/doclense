@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:html';
 
 import 'package:connectivity/connectivity.dart';
 import 'package:doclense/blocs/internet_bloc/internet_event.dart';
