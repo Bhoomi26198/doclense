@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:doclense/providers/profile_provider.dart';
 import 'package:doclense/routing/routes.dart';
+import 'package:doclense/ui/contact.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 var emailText = TextEditingController();
 var numberText = TextEditingController();
@@ -39,6 +42,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget updateProfile(BuildContext context) {
+    final provider = Provider.of<ProfileProvider>(context, listen: true);
     return Stack(
       children: [
         Container(
@@ -76,6 +80,17 @@ class _ProfileState extends State<Profile> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     )),
+                onChanged: (val) {
+                  provider.checkAgeEligibility(int.parse(val));
+                },
+              ),
+              Text(
+                textAlign: TextAlign.start,
+                provider.eligibilityMsg.toString(),
+                style: TextStyle(
+                    color: (provider.isEligible == true)
+                        ? Colors.green
+                        : Colors.red),
               ),
               const SizedBox(height: 11),
               TextField(
@@ -100,22 +115,6 @@ class _ProfileState extends State<Profile> {
                 bottom: 11,
                 right: 11,
                 child: ElevatedButton(onPressed: () {}, child: Text("Update")),
-              ),
-              Positioned(
-                bottom: 11,
-                right: 11,
-                child: Container(
-                  child: ElevatedButton(
-                      onPressed: () {
-                        //   Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //           builder: (context) => ContactPage()));
-
-                        Navigator.pushNamed(context, Routes.contact);
-                      },
-                      child: Text("Contact")),
-                ),
               ),
             ],
           ),
@@ -170,7 +169,7 @@ class _ProfileState extends State<Profile> {
                       onTap: () {
                         pickImageFromGallery();
                       },
-                      child: SizedBox(
+                      child: const SizedBox(
                         child: Column(
                           children: [
                             Icon(Icons.image, size: 50),
@@ -185,7 +184,7 @@ class _ProfileState extends State<Profile> {
                       onTap: () {
                         pickImageFromCamera();
                       },
-                      child: SizedBox(
+                      child: const SizedBox(
                         child: Column(
                           children: [
                             Icon(

@@ -30,6 +30,8 @@ var images = [
 ];
 
 class ContactPage extends StatefulWidget {
+  const ContactPage({super.key});
+
   @override
   State<ContactPage> createState() => _ContactState();
 }
@@ -39,6 +41,7 @@ class _ContactState extends State<ContactPage> {
 
   bool isLoading = true;
 
+  @override
   void initState() {
     super.initState();
     getContactPermission();
@@ -70,12 +73,12 @@ class _ContactState extends State<ContactPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Home'),
+          title: const Text('Contact'),
           centerTitle: true,
           backgroundColor: Colors.blueGrey,
         ),
         body: isLoading
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : SizedBox(
@@ -99,10 +102,6 @@ class _ContactState extends State<ContactPage> {
                             fontWeight: FontWeight.w500,
                             fontFamily: 'FontMain'),
                       ),
-                      // onTap: () {
-                      //   Navigator.push(context,
-                      //       MaterialPageRoute(builder: (context) => DetailsPage()));
-                      // },
                       subtitle: Text(phone[index].phones![0].value!),
                     );
                   },

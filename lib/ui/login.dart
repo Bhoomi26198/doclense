@@ -20,6 +20,7 @@ class Login extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Login'),
           centerTitle: true,
+          backgroundColor: Colors.blueGrey,
         ),
         body: Center(
             child: Container(
@@ -115,18 +116,18 @@ class Login extends StatelessWidget {
                                 MaterialPageRoute(
                                     builder: (context) => HomePage()));
                           },
-                          child: Text(
+                          child: const Text(
                             "Login",
                             style: TextStyle(
-                                backgroundColor: state is LoginValidState
-                                    ? Colors.blue[800]
-                                    : Colors.grey),
+                                // backgroundColor: state is LoginValidState
+                                //     ? Colors.blue[800]
+                                //     : Colors.grey,
+                                fontSize: 18),
                           ),
                         );
                       },
                     ),
                   ),
-                  // FaIcon(FontAwesomeIcons.amazonPay)
                 ],
               );
             },

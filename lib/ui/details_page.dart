@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:doclense/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -56,6 +57,7 @@ class _DetailsPageState extends State<DetailsPage> {
               const SizedBox(height: 11),
               TextField(
                 keyboardType: TextInputType.phone,
+                // maxLength: 10,
                 controller: numberText,
                 decoration: InputDecoration(
                     hintText: "Enter Number",
@@ -89,10 +91,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 child: Container(
                   child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.pushReplacement(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => ListItems()));
+                        Navigator.pushNamed(context, Routes.userList);
                       },
                       child: Text("Submit")),
                 ),

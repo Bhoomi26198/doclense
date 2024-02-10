@@ -1,3 +1,4 @@
+import 'package:doclense/ui/contact.dart';
 import 'package:flutter/material.dart';
 
 class LeftDrawer extends StatelessWidget {
@@ -35,6 +36,22 @@ class LeftDrawer extends StatelessWidget {
             ),
             title: const Text(
               "Home",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ContactPage()));
+
+              // Navigator.pushNamed(context, Routes.contact);
+            },
+            leading: const Icon(
+              Icons.contact_page,
+              color: Colors.black,
+            ),
+            title: const Text(
+              "Contact",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
