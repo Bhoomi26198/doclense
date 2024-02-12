@@ -1,3 +1,4 @@
+import 'package:doclense/constants/app_strings.dart';
 import 'package:doclense/ui/contact.dart';
 import 'package:flutter/material.dart';
 
@@ -10,19 +11,19 @@ class LeftDrawer extends StatelessWidget {
       backgroundColor: Colors.blueGrey[50],
       child: ListView(
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.blueGrey),
+          DrawerHeader(
+            decoration: const BoxDecoration(color: Colors.blueGrey),
             child: Center(
               child: Column(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 55,
                     backgroundImage: NetworkImage(
                         "https://beforeigosolutions.com/pascale-atkinson/attachment/dummy-profile-pic-300x300-1/"),
                   ),
                   Text(
-                    "My Profile",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    AppStrings.myProfile,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   )
                 ],
               ),
@@ -34,9 +35,9 @@ class LeftDrawer extends StatelessWidget {
               Icons.home,
               color: Colors.black,
             ),
-            title: const Text(
-              "Home",
-              style: TextStyle(fontWeight: FontWeight.bold),
+            title: Text(
+              AppStrings.home,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           ListTile(
@@ -50,9 +51,9 @@ class LeftDrawer extends StatelessWidget {
               Icons.contact_page,
               color: Colors.black,
             ),
-            title: const Text(
-              "Contact",
-              style: TextStyle(fontWeight: FontWeight.bold),
+            title: Text(
+              AppStrings.contact,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           ListTile(
@@ -61,9 +62,9 @@ class LeftDrawer extends StatelessWidget {
               Icons.favorite,
               color: Colors.black,
             ),
-            title: const Text(
-              "Favorite",
-              style: TextStyle(fontWeight: FontWeight.bold),
+            title: Text(
+              AppStrings.favorite,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           ListTile(
@@ -72,9 +73,9 @@ class LeftDrawer extends StatelessWidget {
               Icons.mail,
               color: Colors.black,
             ),
-            title: const Text(
-              "Inbox",
-              style: TextStyle(fontWeight: FontWeight.bold),
+            title: Text(
+              AppStrings.inbox,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           ListTile(
@@ -83,9 +84,9 @@ class LeftDrawer extends StatelessWidget {
               Icons.settings,
               color: Colors.black,
             ),
-            title: const Text(
-              "Setting",
-              style: TextStyle(fontWeight: FontWeight.bold),
+            title: Text(
+              AppStrings.setting,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ],

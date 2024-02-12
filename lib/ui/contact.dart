@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:doclense/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -50,7 +51,6 @@ class _ContactState extends State<ContactPage> {
   void getContactPermission() async {
     if (await Permission.contacts.isGranted) {
       fetchContacts();
-      print("loader-------222222222222222");
     } else {
       await Permission.contacts.request();
     }
@@ -66,14 +66,13 @@ class _ContactState extends State<ContactPage> {
       }
       isLoading = false;
     });
-    log("phone--------,${phone}");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Contact'),
+          title: Text(AppStrings.contact),
           centerTitle: true,
           backgroundColor: Colors.blueGrey,
         ),

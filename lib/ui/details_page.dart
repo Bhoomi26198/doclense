@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:doclense/constants/app_strings.dart';
 import 'package:doclense/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,7 +23,7 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User Details'),
+        title: Text(AppStrings.userDetails),
         centerTitle: true,
         backgroundColor: Colors.blueGrey,
       ),
@@ -49,7 +50,7 @@ class _DetailsPageState extends State<DetailsPage> {
               TextField(
                 controller: emailText,
                 decoration: InputDecoration(
-                    hintText: "Enter Name",
+                    hintText: AppStrings.enterName,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     )),
@@ -60,7 +61,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 // maxLength: 10,
                 controller: numberText,
                 decoration: InputDecoration(
-                    hintText: "Enter Number",
+                    hintText: AppStrings.enterNum,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     )),
@@ -70,7 +71,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 keyboardType: TextInputType.number,
                 controller: ageText,
                 decoration: InputDecoration(
-                    hintText: "Enter Age",
+                    hintText: AppStrings.enterAge,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     )),
@@ -79,7 +80,7 @@ class _DetailsPageState extends State<DetailsPage> {
               TextField(
                 controller: addressText,
                 decoration: InputDecoration(
-                    hintText: "Enter Address",
+                    hintText: AppStrings.enterAdd,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     )),
@@ -93,7 +94,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       onPressed: () {
                         Navigator.pushNamed(context, Routes.userList);
                       },
-                      child: Text("Submit")),
+                      child: Text(AppStrings.submit)),
                 ),
               ),
             ],
@@ -152,8 +153,8 @@ class _DetailsPageState extends State<DetailsPage> {
                       child: SizedBox(
                         child: Column(
                           children: [
-                            Icon(Icons.image, size: 50),
-                            Text("Gallery")
+                            const Icon(Icons.image, size: 50),
+                            Text(AppStrings.gallery)
                           ],
                         ),
                       ),
@@ -167,11 +168,11 @@ class _DetailsPageState extends State<DetailsPage> {
                       child: SizedBox(
                         child: Column(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.camera_alt,
                               size: 50,
                             ),
-                            Text("Camera")
+                            Text(AppStrings.camera)
                           ],
                         ),
                       ),

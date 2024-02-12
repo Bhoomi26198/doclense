@@ -1,3 +1,4 @@
+import 'package:doclense/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 
 var images = [
@@ -18,7 +19,7 @@ class Category extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Category'),
+        title: Text(AppStrings.category),
         centerTitle: true,
         backgroundColor: Colors.blueGrey,
       ),

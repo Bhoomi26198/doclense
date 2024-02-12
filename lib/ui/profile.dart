@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:doclense/blocs/updateProfile/updateProfile_block.dart';
 import 'package:doclense/blocs/updateProfile/updateProfile_event.dart';
 import 'package:doclense/blocs/updateProfile/updateProfile_state.dart';
+import 'package:doclense/constants/app_strings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +33,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User Profile'),
+        title: Text(AppStrings.userProfile),
         centerTitle: true,
         backgroundColor: Colors.blueGrey,
       ),
@@ -52,8 +53,8 @@ class _ProfileState extends State<Profile> {
       listener: (context, state) {
         if (state is UpdateProfileSuccessState) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text("Profile Update Successfully!!!"),
+            SnackBar(
+                content: Text(AppStrings.profileUpdateSuccess),
                 backgroundColor: Colors.green),
           );
           Navigator.pop(context);
@@ -73,7 +74,7 @@ class _ProfileState extends State<Profile> {
                   TextField(
                     controller: fnameText,
                     decoration: InputDecoration(
-                        hintText: "Enter FirstName",
+                        hintText: AppStrings.enterFName,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                         )),
@@ -82,7 +83,7 @@ class _ProfileState extends State<Profile> {
                   TextField(
                     controller: lnameText,
                     decoration: InputDecoration(
-                        hintText: "Enter LastName",
+                        hintText: AppStrings.enterLName,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                         )),
@@ -91,7 +92,7 @@ class _ProfileState extends State<Profile> {
                   TextField(
                     controller: emailText,
                     decoration: InputDecoration(
-                        hintText: "Enter Email",
+                        hintText: AppStrings.enterEmail,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                         )),
@@ -101,7 +102,7 @@ class _ProfileState extends State<Profile> {
                     keyboardType: TextInputType.phone,
                     controller: numberText,
                     decoration: InputDecoration(
-                        hintText: "Enter Number",
+                        hintText: AppStrings.enterNum,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                         )),
@@ -151,14 +152,13 @@ class _ProfileState extends State<Profile> {
                     right: 11,
                     child: ElevatedButton(
                         onPressed: () {
-                          log("image------${image}");
                           updateProfileBloc.add(UpdateProfileEvent(
                               image: image != null ? image!.path : "",
                               firstname: fnameText.text,
                               lastname: lnameText.text,
                               email: emailText.text));
                         },
-                        child: Text("Update")),
+                        child: Text(AppStrings.update)),
                   ),
                 ],
               ),
@@ -216,11 +216,11 @@ class _ProfileState extends State<Profile> {
                       onTap: () {
                         pickImageFromGallery();
                       },
-                      child: const SizedBox(
+                      child: SizedBox(
                         child: Column(
                           children: [
-                            Icon(Icons.image, size: 50),
-                            Text("Gallery")
+                            const Icon(Icons.image, size: 50),
+                            Text(AppStrings.gallery)
                           ],
                         ),
                       ),
@@ -231,14 +231,14 @@ class _ProfileState extends State<Profile> {
                       onTap: () {
                         pickImageFromCamera();
                       },
-                      child: const SizedBox(
+                      child: SizedBox(
                         child: Column(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.camera_alt,
                               size: 50,
                             ),
-                            Text("Camera")
+                            Text(AppStrings.camera)
                           ],
                         ),
                       ),

@@ -1,3 +1,4 @@
+import 'package:doclense/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 
 var arrayNames = [
@@ -31,7 +32,7 @@ class Notifications extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Notifications'),
+          title: Text(AppStrings.notification),
           centerTitle: true,
           backgroundColor: Colors.blueGrey,
         ),

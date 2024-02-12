@@ -1,3 +1,4 @@
+import 'package:doclense/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -6,8 +7,16 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      color: Colors.blue,
-    ));
+        body: Stack(children: [
+      Container(
+        color: Colors.blueGrey,
+      ),
+      Center(
+        child: Text(
+          AppStrings.flutterDemo,
+          style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        ),
+      )
+    ]));
   }
 }

@@ -3,6 +3,7 @@ import 'package:doclense/blocs/internet_bloc/internet_state.dart';
 import 'package:doclense/blocs/login/login_bloc.dart';
 import 'package:doclense/blocs/login/login_event.dart';
 import 'package:doclense/blocs/login/login_state.dart';
+import 'package:doclense/constants/app_strings.dart';
 
 import 'package:doclense/ui/listItem.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Login'),
+          title: Text(AppStrings.login),
           centerTitle: true,
           backgroundColor: Colors.blueGrey,
         ),
@@ -30,14 +31,14 @@ class Login extends StatelessWidget {
             listener: (context, state) {
               if (state is InternetGainState) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text("Internet Connected"),
+                  SnackBar(
+                      content: Text(AppStrings.internetConnected),
                       backgroundColor: Colors.green),
                 );
               } else if (state is InternetLostState) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text("Internet not Connected"),
+                  SnackBar(
+                      content: Text(AppStrings.internetNotConnected),
                       backgroundColor: Colors.red),
                 );
               }
@@ -54,7 +55,7 @@ class Login extends StatelessWidget {
                     keyboardType: TextInputType.emailAddress,
                     controller: emailText,
                     decoration: InputDecoration(
-                        hintText: "Enter Email",
+                        hintText: AppStrings.enterEmail,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                             borderSide:
@@ -83,7 +84,7 @@ class Login extends StatelessWidget {
                     controller: passwordText,
                     obscureText: true,
                     decoration: InputDecoration(
-                        hintText: "Enter Password",
+                        hintText: AppStrings.enterPassword,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                             borderSide:
@@ -116,9 +117,9 @@ class Login extends StatelessWidget {
                                 MaterialPageRoute(
                                     builder: (context) => HomePage()));
                           },
-                          child: const Text(
-                            "Login",
-                            style: TextStyle(
+                          child: Text(
+                            AppStrings.login,
+                            style: const TextStyle(
                                 // backgroundColor: state is LoginValidState
                                 //     ? Colors.blue[800]
                                 //     : Colors.grey,

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:doclense/blocs/user_list/userList_bloc.dart';
 import 'package:doclense/blocs/user_list/userList_event.dart';
 import 'package:doclense/blocs/user_list/userList_state.dart';
+import 'package:doclense/constants/app_strings.dart';
 import 'package:doclense/data/modals/userList_modal.dart';
 import 'package:doclense/routing/routes.dart';
 import 'package:doclense/ui/category.dart';
@@ -70,22 +71,22 @@ class _HomePageState extends State<HomePage> {
           });
         },
         type: BottomNavigationBarType.fixed,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            label: "Home",
-            icon: Icon(Icons.home),
+            label: AppStrings.home,
+            icon: const Icon(Icons.home),
           ),
           BottomNavigationBarItem(
-            label: "Category",
-            icon: Icon(Icons.category),
+            label: AppStrings.category,
+            icon: const Icon(Icons.category),
           ),
           BottomNavigationBarItem(
-            label: "Notifications",
-            icon: Icon(Icons.notifications),
+            label: AppStrings.profile,
+            icon: const Icon(Icons.notifications),
           ),
           BottomNavigationBarItem(
-            label: "Profile",
-            icon: Icon(Icons.person),
+            label: AppStrings.myProfile,
+            icon: const Icon(Icons.person),
           )
         ],
       ),
@@ -115,7 +116,7 @@ class _ListItemsState extends State<ListItems> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Home'),
+          title: Text(AppStrings.home),
           centerTitle: true,
           backgroundColor: Colors.blueGrey,
         ),
