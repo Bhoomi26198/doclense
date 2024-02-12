@@ -1,19 +1,23 @@
+import 'dart:developer';
 import 'dart:io';
 
-import 'package:doclense/providers/profile_provider.dart';
-import 'package:doclense/routing/routes.dart';
-import 'package:doclense/ui/contact.dart';
+import 'package:doclense/blocs/updateProfile/updateProfile_block.dart';
+import 'package:doclense/blocs/updateProfile/updateProfile_event.dart';
+import 'package:doclense/blocs/updateProfile/updateProfile_state.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
+var fnameText = TextEditingController();
+var lnameText = TextEditingController();
 var emailText = TextEditingController();
 var numberText = TextEditingController();
 var ageText = TextEditingController();
 var addressText = TextEditingController();
 XFile? image;
 final ImagePicker picker = ImagePicker();
+UpdateProfileBloc updateProfileBloc = UpdateProfileBloc();
 
 class Profile extends StatefulWidget {
   @override
@@ -42,94 +46,137 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget updateProfile(BuildContext context) {
-    final provider = Provider.of<ProfileProvider>(context, listen: true);
-    return Stack(
-      children: [
-        Container(
-          margin: EdgeInsets.all(12),
-          color: Colors.transparent,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Center(child: profileImage()),
-              const SizedBox(height: 11),
-              TextField(
-                controller: emailText,
-                decoration: InputDecoration(
-                    hintText: "Enter Name",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    )),
-              ),
-              const SizedBox(height: 11),
-              TextField(
-                keyboardType: TextInputType.phone,
-                controller: numberText,
-                decoration: InputDecoration(
-                    hintText: "Enter Number",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    )),
-              ),
-              const SizedBox(height: 11),
-              TextField(
-                keyboardType: TextInputType.number,
-                controller: ageText,
-                decoration: InputDecoration(
-                    hintText: "Enter Age",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    )),
-                onChanged: (val) {
-                  provider.checkAgeEligibility(int.parse(val));
-                },
-              ),
-              Text(
-                textAlign: TextAlign.start,
-                provider.eligibilityMsg.toString(),
-                style: TextStyle(
-                    color: (provider.isEligible == true)
-                        ? Colors.green
-                        : Colors.red),
-              ),
-              const SizedBox(height: 11),
-              TextField(
-                controller: addressText,
-                decoration: InputDecoration(
-                    hintText: "Enter Address",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    )),
-              ),
-              const SizedBox(height: 11),
-              const DropdownMenu(
-                dropdownMenuEntries: [
-                  DropdownMenuEntry(value: Colors.blue, label: 'Male'),
-                  DropdownMenuEntry(value: Colors.pink, label: 'Female')
+    // final provider = Provider.of<ProfileProvider>(context, listen: true);
+    return BlocConsumer<UpdateProfileBloc, UpdateProfileState>(
+      bloc: updateProfileBloc,
+      listener: (context, state) {
+        if (state is UpdateProfileSuccessState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text("Profile Update Successfully!!!"),
+                backgroundColor: Colors.green),
+          );
+          Navigator.pop(context);
+        }
+      },
+      builder: (context, state) {
+        return Stack(
+          children: [
+            Container(
+              margin: EdgeInsets.all(12),
+              color: Colors.transparent,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(child: profileImage()),
+                  const SizedBox(height: 11),
+                  TextField(
+                    controller: fnameText,
+                    decoration: InputDecoration(
+                        hintText: "Enter FirstName",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        )),
+                  ),
+                  const SizedBox(height: 11),
+                  TextField(
+                    controller: lnameText,
+                    decoration: InputDecoration(
+                        hintText: "Enter LastName",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        )),
+                  ),
+                  const SizedBox(height: 11),
+                  TextField(
+                    controller: emailText,
+                    decoration: InputDecoration(
+                        hintText: "Enter Email",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        )),
+                  ),
+                  const SizedBox(height: 11),
+                  TextField(
+                    keyboardType: TextInputType.phone,
+                    controller: numberText,
+                    decoration: InputDecoration(
+                        hintText: "Enter Number",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        )),
+                  ),
+                  const SizedBox(height: 11),
+                  // TextField(
+                  //   keyboardType: TextInputType.number,
+                  //   controller: ageText,
+                  //   decoration: InputDecoration(
+                  //       hintText: "Enter Age",
+                  //       border: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(20),
+                  //       )),
+                  //   onChanged: (val) {
+                  //     provider.checkAgeEligibility(int.parse(val));
+                  //   },
+                  // ),
+                  // Text(
+                  //   textAlign: TextAlign.start,
+                  //   provider.eligibilityMsg.toString(),
+                  //   style: TextStyle(
+                  //       color: (provider.isEligible == true)
+                  //           ? Colors.green
+                  //           : Colors.red),
+                  // ),
+                  // const SizedBox(height: 11),
+                  // TextField(
+                  //   controller: addressText,
+                  //   decoration: InputDecoration(
+                  //       hintText: "Enter Address",
+                  //       border: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(20),
+                  //       )),
+                  // ),
+                  // const SizedBox(height: 11),
+                  // const DropdownMenu(
+                  //   dropdownMenuEntries: [
+                  //     DropdownMenuEntry(value: Colors.blue, label: 'Male'),
+                  //     DropdownMenuEntry(value: Colors.pink, label: 'Female')
+                  //   ],
+                  //   enableSearch: true,
+                  //   width: 370,
+                  // ),
+                  const SizedBox(height: 11),
+                  Positioned(
+                    bottom: 11,
+                    right: 11,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          log("image------${image}");
+                          updateProfileBloc.add(UpdateProfileEvent(
+                              image: image != null ? image!.path : "",
+                              firstname: fnameText.text,
+                              lastname: lnameText.text,
+                              email: emailText.text));
+                        },
+                        child: Text("Update")),
+                  ),
                 ],
-                enableSearch: true,
-                width: 370,
               ),
-              const SizedBox(height: 11),
-              Positioned(
-                bottom: 11,
-                right: 11,
-                child: ElevatedButton(onPressed: () {}, child: Text("Update")),
-              ),
-            ],
-          ),
-        )
-      ],
+            )
+          ],
+        );
+      },
     );
   }
 
   Widget profileImage() {
     return Stack(
       children: [
-        _image != null
+        image != null
             ? CircleAvatar(
                 radius: 100,
-                backgroundImage: MemoryImage(_image!),
+                // backgroundImage: MemoryImage(_image!),
+                backgroundImage: FileImage(File(image!.path)),
               )
             : const CircleAvatar(
                 radius: 100,
@@ -205,24 +252,33 @@ class _ProfileState extends State<Profile> {
   }
 
   Future pickImageFromGallery() async {
-    final returnImange =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (returnImange == null) return;
-      selectedImage = File(returnImange.path);
-      _image = File(returnImange.path).readAsBytesSync();
-    });
+    image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      setState(() {});
+    }
+    // final returnImange = await picker.pickImage(source: ImageSource.gallery);
+    // setState(() {
+    //   if (returnImange == null) return;
+    //   selectedImage = File(returnImange.path);
+    //   _image = File(returnImange.path).readAsBytesSync();
+    // });
     Navigator.of(context).pop();
   }
 
   Future pickImageFromCamera() async {
-    final returnImange =
-        await ImagePicker().pickImage(source: ImageSource.camera);
-    setState(() {
-      if (returnImange == null) return;
-      selectedImage = File(returnImange.path);
-      _image = File(returnImange.path).readAsBytesSync();
-    });
+    image = await ImagePicker().pickImage(source: ImageSource.camera);
+    if (image != null) {
+      setState(() {});
+    }
+
+    // final returnImange = await ImagePicker().pickImage(source: ImageSource.camera);
+
+    // setState(() {
+    //   if (returnImange == null) return;
+    //   selectedImage = File(returnImange.path);
+    //   _image = File(returnImange.path).readAsBytesSync();
+    // });
     Navigator.of(context).pop();
   }
 }

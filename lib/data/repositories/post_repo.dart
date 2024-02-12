@@ -18,14 +18,16 @@ class PostRepository {
   // }
 }
 
+String accessToken =
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiZDA1ZWZmMTAxMWJlMjYwNjBkYWMxODZjNjdjY2UzZGYwMjU2MWRmNzg1NzRlNTc0Mzk3YzI2MjhjYmI4MDI5ZGNlZWJiMTYwMWNkNjA3NzgiLCJpYXQiOjE3MDc3MjEyMjIuMDMwMzgsIm5iZiI6MTcwNzcyMTIyMi4wMzAzODUsImV4cCI6MTcwOTAxNzIyMS45Mjk4Niwic3ViIjoiMjg2Iiwic2NvcGVzIjpbXX0.vA1yB9y_2DIpFNeRCMyyKUROdNZElMbylTA2MMOtfY5h3ixHufu2mesBs9G7SAdNHAgYdapyMSKYl4As0ieSt8E0jvLrQAOFadzbCDpm4sYjP8Ee9yHzwSCGNqtMJ-ppYZnQ2c2PjM8W722ogOOK13uZ60lgHyxucmc1jQqEASebKBkGXpUa5iYsHzUK-vE51Ew9ZYd62tOj0drBgDUTNN99o4pgI5-AvgscNYii7ObZ9oOmusrmoSUHfl3JCqASAOSIGFUYP_lJbSIQ8upRvPHF9kT53GazF8zWer0rQnQcsqYgP-4VOeFCCNMCllp2b27nZc6IEdVUuXUMy7GrWuYhw5FHiYQG3jS7PNb0NNe1JcYDDkvju4cCYvAKJ0rLBlhjFrU1WYN7FrwQchBAe3SvOhjeGN3xMz1QC3ZjatYeVeOmlhoqM02At1MTwn_EJGze3TFzj8iQuPHiyfRgBxzN16WSRGqpTIDKtVktrr3dsMzInHkb9m6HeX2gwebD-40RyHSg89yekU821MKPGeuUHDpow9krIehXGY-3GneoJNzBJkFl8f98HLv64cPWYjr04ls2l-vI2bTnjeMDlff8LesfCq6woCosBlwrgVuYoyUbef3u0z-nOycUKqZE_ekodOSlQUYfdXTD3GeKp5W_RsNLrLP3fHZVnRGlugc";
+
 Future<Map<String, dynamic>> getUserListApi() async {
   try {
     Response response = await http.get(
         Uri.parse("http://165.73.252.89/development/api/v1/skills"),
         headers: {
           "Accept": "application/json",
-          "Authorization":
-              "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNDE3ODYwOTRmZmI4NzU1NDU4M2VkYWZlY2ZlZGNhMDE2MDg3MjUxZmNmMWRmZTAyNTg1ZjljMThkZDVmYzg4ZGNmNzQ3ZDE0NmJjYThlYjYiLCJpYXQiOjE3MDc0NzUwODIuOTY3MzU2LCJuYmYiOjE3MDc0NzUwODIuOTY3MzU5LCJleHAiOjE3MDg3NzEwODIuOTQ0Mzc2LCJzdWIiOiIyODYiLCJzY29wZXMiOltdfQ.jNEM09lrD_4AHkZ45hph7B-AEKAdYzwLTpM9_8OUonsT3vHayn1nTs0uxKuqWTMApIrnRDUNdPkuwIGt6mXy_zyXoEn11JgbgDKYlUaxwAQ6HkBc3t0C4Hn-ehGpTgS0fBCjne48eUJ7EoRQKfrKd-3jZ_BM_GxtrZyhwbjST7lw0x-AD69WinSmyX0jAC110ac_FrR1UEJm-LI1kKj8JP1IB0qsu6sKe7PUnFc7O03OjLOospTP_1Zhnn_H8Wb7hTjdHYdlqIsEOFeqz_lAyxOG1e9tASRL3jbFjGeCk9rXncV85CnDmrKWZiRRoeKULcpM6VEZktw2liXx57O5mU9Dd_wizcCs5itvtRn0Wx66lXgyGSb-0J07n0KhvNZwVmhWjwvCvHSs6qJH0zjc570nQYt1efwjPXL5uDGla5zmyR_s19xVqPPHUMbRJuKAeEhmFv1Z6CLOEier4b_VV7BpblXYx0ip9Jtc0ochFBn5I8rg4E5ZESqJ5Vb5sar8Cq1xgr8n1jdnM4GaR_KjnBWY9ibwLeinVZAS-XMkFToNcx5vteArNV3AdO3ULFKfXtkh4cGeOBI5EIOIwQK_r9fN6H_e0J9lAY8Kt_gm0sexxRj5f4lL9tY4lkhtNXasZcqQSIItVhFAaMM0zwPc_m8kh6QDlJCZKUSojn1cXys"
+          "Authorization": "Bearer $accessToken"
         });
 
     if (response.statusCode == 200) {
@@ -33,6 +35,41 @@ Future<Map<String, dynamic>> getUserListApi() async {
       return responseBody;
     } else {
       var responseBody = jsonDecode(response.body);
+      return responseBody;
+    }
+  } catch (e) {
+    log("Error:: ${e}");
+  }
+  return {};
+}
+
+Future<Map<String, dynamic>> updateUserprofile(
+    String firstname, String lastname, String email, String path) async {
+  try {
+    var body = <String, String>{
+      'first_name': firstname,
+      'last_name': lastname,
+      'email': email,
+      'skills[0]': '6'
+    };
+    var request = http.MultipartRequest('POST',
+        Uri.parse("http://165.73.252.89/development/api/v1/engineer/profile"));
+
+    request.fields.addAll(body);
+    if (path.isNotEmpty) {
+      request.files.add(await http.MultipartFile.fromPath('image', path));
+    }
+
+    request.headers.addAll(
+        {"Accept": "application/json", "Authorization": "Bearer $accessToken"});
+
+    StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var responseBody = jsonDecode(await response.stream.bytesToString());
+      return responseBody;
+    } else {
+      var responseBody = jsonDecode(await response.stream.bytesToString());
       return responseBody;
     }
   } catch (e) {
