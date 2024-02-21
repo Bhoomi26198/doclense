@@ -41,6 +41,8 @@ var images = [
 ];
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -51,7 +53,7 @@ class _HomePageState extends State<HomePage> {
 
   List body = [
     ListItems(),
-    Category(),
+    const Category(),
     Notifications(),
     Profile(),
   ];
@@ -81,7 +83,7 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.category),
           ),
           BottomNavigationBarItem(
-            label: AppStrings.profile,
+            label: AppStrings.notification,
             icon: const Icon(Icons.notifications),
           ),
           BottomNavigationBarItem(
@@ -95,7 +97,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 class ListItems extends StatefulWidget {
-  ListItems({super.key});
+  const ListItems({super.key});
 
   @override
   State<ListItems> createState() => _ListItemsState();
@@ -104,6 +106,7 @@ class ListItems extends StatefulWidget {
 class _ListItemsState extends State<ListItems> {
   UserListbloc userListbloc = UserListbloc();
   UserListModal userListModal = UserListModal();
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -120,7 +123,7 @@ class _ListItemsState extends State<ListItems> {
           centerTitle: true,
           backgroundColor: Colors.blueGrey,
         ),
-        drawer: LeftDrawer(),
+        drawer: const LeftDrawer(),
         body: SizedBox(
             child: Container(
           margin: const EdgeInsets.all(12),
@@ -128,10 +131,18 @@ class _ListItemsState extends State<ListItems> {
             bloc: userListbloc,
             listener: (context, state) {
               if (state is UserListSuccessState) {
+                isLoading = false;
                 state.userListModal!;
               } else if (state is UserListErrorState) {}
             },
             builder: (context, state) {
+              if (isLoading) {
+                const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.red,
+                  ),
+                );
+              }
               if (state is UserListSuccessState) {
                 return ListView.separated(
                   itemBuilder: (context, index) {
@@ -155,7 +166,7 @@ class _ListItemsState extends State<ListItems> {
                         Navigator.pushNamed(context, Routes.detailsPage);
                       },
                       subtitle: Text(state.userListModal![index]!.statusText!),
-                      trailing: Icon(Icons.add),
+                      trailing: const Icon(Icons.add),
                     );
                   },
                   itemCount: state.userListModal!.length,

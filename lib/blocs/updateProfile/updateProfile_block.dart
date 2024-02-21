@@ -18,6 +18,7 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
                   event.email!, event.image ?? ""));
 
           if (responseModel.status == true) {
+            log("message-----------");
             UserProfileModel userProfileModel =
                 UserProfileModel.fromJson(responseModel.data!);
             emit(UpdateProfileSuccessState(userProfileModel: userProfileModel));

@@ -8,6 +8,7 @@ import 'package:doclense/constants/app_strings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 var fnameText = TextEditingController();
@@ -19,6 +20,7 @@ var addressText = TextEditingController();
 XFile? image;
 final ImagePicker picker = ImagePicker();
 UpdateProfileBloc updateProfileBloc = UpdateProfileBloc();
+final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 class Profile extends StatefulWidget {
   @override
@@ -28,6 +30,28 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   Uint8List? _image;
   File? selectedImage;
+
+  void submitForm() {
+    if (formKey.currentState!.validate()) {
+      updateProfileBloc.add(UpdateProfileEvent(
+          image: image != null ? image!.path : "",
+          firstname: fnameText.text,
+          lastname: lnameText.text,
+          email: emailText.text));
+    }
+  }
+
+  String? validateEmail(value) {
+    if (value!.isEmpty) {
+      return "Please Enter an Email";
+    }
+    RegExp emailRegExp =
+        RegExp(r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
+    if (!emailRegExp.hasMatch(value)) {
+      return "Please Enter Valid Email";
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +81,7 @@ class _ProfileState extends State<Profile> {
                 content: Text(AppStrings.profileUpdateSuccess),
                 backgroundColor: Colors.green),
           );
-          Navigator.pop(context);
+          // Navigator.pop(context);
         }
       },
       builder: (context, state) {
@@ -66,101 +90,120 @@ class _ProfileState extends State<Profile> {
             Container(
               margin: EdgeInsets.all(12),
               color: Colors.transparent,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Center(child: profileImage()),
-                  const SizedBox(height: 11),
-                  TextField(
-                    controller: fnameText,
-                    decoration: InputDecoration(
-                        hintText: AppStrings.enterFName,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )),
-                  ),
-                  const SizedBox(height: 11),
-                  TextField(
-                    controller: lnameText,
-                    decoration: InputDecoration(
-                        hintText: AppStrings.enterLName,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )),
-                  ),
-                  const SizedBox(height: 11),
-                  TextField(
-                    controller: emailText,
-                    decoration: InputDecoration(
-                        hintText: AppStrings.enterEmail,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )),
-                  ),
-                  const SizedBox(height: 11),
-                  TextField(
-                    keyboardType: TextInputType.phone,
-                    controller: numberText,
-                    decoration: InputDecoration(
-                        hintText: AppStrings.enterNum,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )),
-                  ),
-                  const SizedBox(height: 11),
-                  // TextField(
-                  //   keyboardType: TextInputType.number,
-                  //   controller: ageText,
-                  //   decoration: InputDecoration(
-                  //       hintText: "Enter Age",
-                  //       border: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(20),
-                  //       )),
-                  //   onChanged: (val) {
-                  //     provider.checkAgeEligibility(int.parse(val));
-                  //   },
-                  // ),
-                  // Text(
-                  //   textAlign: TextAlign.start,
-                  //   provider.eligibilityMsg.toString(),
-                  //   style: TextStyle(
-                  //       color: (provider.isEligible == true)
-                  //           ? Colors.green
-                  //           : Colors.red),
-                  // ),
-                  // const SizedBox(height: 11),
-                  // TextField(
-                  //   controller: addressText,
-                  //   decoration: InputDecoration(
-                  //       hintText: "Enter Address",
-                  //       border: OutlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(20),
-                  //       )),
-                  // ),
-                  // const SizedBox(height: 11),
-                  // const DropdownMenu(
-                  //   dropdownMenuEntries: [
-                  //     DropdownMenuEntry(value: Colors.blue, label: 'Male'),
-                  //     DropdownMenuEntry(value: Colors.pink, label: 'Female')
-                  //   ],
-                  //   enableSearch: true,
-                  //   width: 370,
-                  // ),
-                  const SizedBox(height: 11),
-                  Positioned(
-                    bottom: 11,
-                    right: 11,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          updateProfileBloc.add(UpdateProfileEvent(
-                              image: image != null ? image!.path : "",
-                              firstname: fnameText.text,
-                              lastname: lnameText.text,
-                              email: emailText.text));
-                        },
-                        child: Text(AppStrings.update)),
-                  ),
-                ],
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(child: profileImage()),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: fnameText,
+                      decoration: InputDecoration(
+                          labelText: AppStrings.enterFName,
+                          hintText: AppStrings.enterFName,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          )),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please Enter First Name";
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: lnameText,
+                      decoration: InputDecoration(
+                          labelText: AppStrings.enterLName,
+                          hintText: AppStrings.enterLName,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          )),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please Enter Last Name";
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                        controller: emailText,
+                        decoration: InputDecoration(
+                            labelText: AppStrings.enterEmail,
+                            hintText: AppStrings.enterEmail,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            )),
+                        validator: validateEmail),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      keyboardType: TextInputType.phone,
+                      controller: numberText,
+                      decoration: InputDecoration(
+                          labelText: AppStrings.enterNum,
+                          hintText: AppStrings.enterNum,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          )),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please Enter Phone Number";
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    // TextFormField(
+                    //   keyboardType: TextInputType.number,
+                    //   controller: ageText,
+                    //   decoration: InputDecoration(
+                    //       hintText: "Enter Age",
+                    //       border: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(20),
+                    //       )),
+                    //   onChanged: (val) {
+                    //     provider.checkAgeEligibility(int.parse(val));
+                    //   },
+                    // ),
+                    // Text(
+                    //   textAlign: TextAlign.start,
+                    //   provider.eligibilityMsg.toString(),
+                    //   style: TextStyle(
+                    //       color: (provider.isEligible == true)
+                    //           ? Colors.green
+                    //           : Colors.red),
+                    // ),
+                    // const SizedBox(height: 16),
+                    // TextFormField(
+                    //   controller: addressText,
+                    //   decoration: InputDecoration(
+                    //       hintText: "Enter Address",
+                    //       border: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(20),
+                    //       )),
+                    // ),
+                    // const SizedBox(height: 16),
+                    // const DropdownMenu(
+                    //   dropdownMenuEntries: [
+                    //     DropdownMenuEntry(value: Colors.blue, label: 'Male'),
+                    //     DropdownMenuEntry(value: Colors.pink, label: 'Female')
+                    //   ],
+                    //   enableSearch: true,
+                    //   width: 370,
+                    // ),
+                    const SizedBox(height: 16),
+                    Positioned(
+                      bottom: 11,
+                      right: 11,
+                      child: ElevatedButton(
+                          onPressed: submitForm,
+                          child: Text(AppStrings.update)),
+                    ),
+                  ],
+                ),
               ),
             )
           ],

@@ -1,4 +1,5 @@
 import 'package:doclense/routing/routes.dart';
+import 'package:doclense/ui/categoryDetail.dart';
 import 'package:doclense/ui/contact.dart';
 import 'package:doclense/ui/details_page.dart';
 import 'package:doclense/ui/listItem.dart';
@@ -8,11 +9,14 @@ class PageRoutes {
   static Route<dynamic> onGenerateroute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.contact:
-        return _getMaterialPageRoute(ContactPage());
+        return _getMaterialPageRoute(const ContactPage());
       case Routes.userList:
         return _getMaterialPageRoute(ListItems());
       case Routes.detailsPage:
         return _getMaterialPageRoute(DetailsPage());
+      case Routes.categoryDetails:
+        return _getMaterialPageRoute(
+            CategoryDetails(item: settings.arguments as Object));
       default:
         return MaterialPageRoute(
           builder: (BuildContext context) => Container(),

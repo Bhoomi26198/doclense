@@ -19,7 +19,7 @@ class PostRepository {
 }
 
 String accessToken =
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiZDA1ZWZmMTAxMWJlMjYwNjBkYWMxODZjNjdjY2UzZGYwMjU2MWRmNzg1NzRlNTc0Mzk3YzI2MjhjYmI4MDI5ZGNlZWJiMTYwMWNkNjA3NzgiLCJpYXQiOjE3MDc3MjEyMjIuMDMwMzgsIm5iZiI6MTcwNzcyMTIyMi4wMzAzODUsImV4cCI6MTcwOTAxNzIyMS45Mjk4Niwic3ViIjoiMjg2Iiwic2NvcGVzIjpbXX0.vA1yB9y_2DIpFNeRCMyyKUROdNZElMbylTA2MMOtfY5h3ixHufu2mesBs9G7SAdNHAgYdapyMSKYl4As0ieSt8E0jvLrQAOFadzbCDpm4sYjP8Ee9yHzwSCGNqtMJ-ppYZnQ2c2PjM8W722ogOOK13uZ60lgHyxucmc1jQqEASebKBkGXpUa5iYsHzUK-vE51Ew9ZYd62tOj0drBgDUTNN99o4pgI5-AvgscNYii7ObZ9oOmusrmoSUHfl3JCqASAOSIGFUYP_lJbSIQ8upRvPHF9kT53GazF8zWer0rQnQcsqYgP-4VOeFCCNMCllp2b27nZc6IEdVUuXUMy7GrWuYhw5FHiYQG3jS7PNb0NNe1JcYDDkvju4cCYvAKJ0rLBlhjFrU1WYN7FrwQchBAe3SvOhjeGN3xMz1QC3ZjatYeVeOmlhoqM02At1MTwn_EJGze3TFzj8iQuPHiyfRgBxzN16WSRGqpTIDKtVktrr3dsMzInHkb9m6HeX2gwebD-40RyHSg89yekU821MKPGeuUHDpow9krIehXGY-3GneoJNzBJkFl8f98HLv64cPWYjr04ls2l-vI2bTnjeMDlff8LesfCq6woCosBlwrgVuYoyUbef3u0z-nOycUKqZE_ekodOSlQUYfdXTD3GeKp5W_RsNLrLP3fHZVnRGlugc";
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiY2ZlNmI4YmQ4MjViN2QyYTRmODNmMmRlZjQ2NjU0N2U0YzNjZmJkMDI5NjE3Mzg4ODAzMWQ5NmNmZDk4YWI3MGUyNDVhYTMxOWZjYjE2ZjciLCJpYXQiOjE3MDc4MDA1NDQuMDQxODkyLCJuYmYiOjE3MDc4MDA1NDQuMDQxODk3LCJleHAiOjE3MDkwOTY1NDQuMDExMjc4LCJzdWIiOiIyODUiLCJzY29wZXMiOltdfQ.DCfm-S5_NzLJTBhNivh7BCK7s_A2dwyxpuAiKEe4IkZngj2j3G_Iq06hk5m2ltsYy9X5ecrh_Uz_DUoUkHiqTtmG1KXDW9CUG_wFlc_-fp7-agZ2kOWXPPL8zx3NYY7REnKXWsKrZRU-tbxn8h4cimjtMsAZsaVuBD7zgDKK8PDEhTfTPVTQCUMJaTfQkliZBVnG43FBC0N8OvD2hxQcNf-kh5fh_Pli_Tzuv6PgjZU36Nc0NR9tmrsNr0sLJu-JqJn1zLovilLZ0XYdlJGKukz3_WxxsX01tnK9WC8NnHRi0qlZV67MdovvsKoq6F5j6AGJ0NOVl84YtKo9t3_usYrq-Z6m5viSJtQU6g22j4qKrdPsFbuavdY7o58apJJAOCXxvar9bIiIs_XP0GtIYLSrsQ_OCXTmqrCzzCTLQrB1WZvuxi2-gToofS8s_jwbd_bLbSZ56amb_QSB_HQ70PCF99cpbdGsLWBzOemjXf6iUnGSXuyAlsCGnJNp-aFZIQj2Z6GueYsgLywMnLhfWvhbRRbVY1nRCVMSUhvKCQPMz1nn5TFVZuw0qd_2upWJ81GSXLwgq1fMGeaR4rcY85Z076c1RPgHG9rSig42SBDIJTP4TzmwJbWQIGSNfu84yHhqWDCR4c57sS9-e871Pkv0yshsCNjTKQxhBf99daUsss";
 
 Future<Map<String, dynamic>> getUserListApi() async {
   try {
@@ -31,6 +31,7 @@ Future<Map<String, dynamic>> getUserListApi() async {
         });
 
     if (response.statusCode == 200) {
+      log("Success----");
       var responseBody = jsonDecode(response.body);
       return responseBody;
     } else {
@@ -45,6 +46,7 @@ Future<Map<String, dynamic>> getUserListApi() async {
 
 Future<Map<String, dynamic>> updateUserprofile(
     String firstname, String lastname, String email, String path) async {
+  log("message---------------");
   try {
     var body = <String, String>{
       'first_name': firstname,
@@ -66,6 +68,7 @@ Future<Map<String, dynamic>> updateUserprofile(
     StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
+      log("Success message------------");
       var responseBody = jsonDecode(await response.stream.bytesToString());
       return responseBody;
     } else {

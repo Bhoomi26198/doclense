@@ -40,7 +40,7 @@ class _DetailsPageState extends State<DetailsPage> {
     return Stack(
       children: [
         Container(
-          margin: EdgeInsets.all(12),
+          margin: const EdgeInsets.all(12),
           color: Colors.transparent,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

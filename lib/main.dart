@@ -65,11 +65,37 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(scaffoldBackgroundColor: Colors.blueGrey[100]),
         home: AnimatedSplashScreen(
-          splash: SplashScreen(),
-          nextScreen: HomePage(),
+          splash: const SplashScreen(),
+          nextScreen: Login(),
         ),
         onGenerateRoute: PageRoutes.onGenerateroute,
       ),
     );
+  }
+}
+
+class NavigationService {
+  GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
+
+  static NavigationService instance = NavigationService();
+
+  NavigationService() {
+    navigationKey = GlobalKey<NavigatorState>();
+  }
+
+  Future<dynamic> navigateToReplacement(String rn) {
+    return navigationKey.currentState!.pushReplacementNamed(rn);
+  }
+
+  Future<dynamic> navigateTo(String rn) {
+    return navigationKey.currentState!.pushNamed(rn);
+  }
+
+  Future<dynamic> navigateToRoute(MaterialPageRoute rn) {
+    return navigationKey.currentState!.push(rn);
+  }
+
+  goback() {
+    return navigationKey.currentState!.pop();
   }
 }

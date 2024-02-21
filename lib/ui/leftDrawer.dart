@@ -19,7 +19,7 @@ class LeftDrawer extends StatelessWidget {
                   const CircleAvatar(
                     radius: 55,
                     backgroundImage: NetworkImage(
-                        "https://beforeigosolutions.com/pascale-atkinson/attachment/dummy-profile-pic-300x300-1/"),
+                        "https://usuploads.s3.amazonaws.com/itlearn360/uploads/2018/12/dummy-profile-pic-300x300.jpg"),
                   ),
                   Text(
                     AppStrings.myProfile,
