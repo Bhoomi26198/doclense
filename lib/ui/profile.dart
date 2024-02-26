@@ -1,15 +1,15 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:doclense/blocs/updateProfile/updateProfile_block.dart';
 import 'package:doclense/blocs/updateProfile/updateProfile_event.dart';
 import 'package:doclense/blocs/updateProfile/updateProfile_state.dart';
 import 'package:doclense/constants/app_strings.dart';
-import 'package:flutter/foundation.dart';
+import 'package:doclense/data/modals/login_modal.dart';
+import 'package:doclense/providers/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 var fnameText = TextEditingController();
 var lnameText = TextEditingController();
@@ -21,6 +21,7 @@ XFile? image;
 final ImagePicker picker = ImagePicker();
 UpdateProfileBloc updateProfileBloc = UpdateProfileBloc();
 final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+LoginModal? userData;
 
 class Profile extends StatefulWidget {
   @override
@@ -28,8 +29,22 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  Uint8List? _image;
   File? selectedImage;
+
+  @override
+  void initState() {
+    getUserProfile();
+    super.initState();
+  }
+
+  getUserProfile() {
+    userData =
+        Provider.of<UserDetailsProvider>(context, listen: false).userDetails;
+    fnameText.text = userData!.fname!;
+    lnameText.text = userData!.lname!;
+    emailText.text = userData!.email!;
+    numberText.text = userData!.number!;
+  }
 
   void submitForm() {
     if (formKey.currentState!.validate()) {
@@ -88,7 +103,7 @@ class _ProfileState extends State<Profile> {
         return Stack(
           children: [
             Container(
-              margin: EdgeInsets.all(12),
+              margin: const EdgeInsets.all(12),
               color: Colors.transparent,
               child: Form(
                 key: formKey,
@@ -97,21 +112,24 @@ class _ProfileState extends State<Profile> {
                   children: [
                     Center(child: profileImage()),
                     const SizedBox(height: 16),
-                    TextFormField(
-                      controller: fnameText,
-                      decoration: InputDecoration(
-                          labelText: AppStrings.enterFName,
-                          hintText: AppStrings.enterFName,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          )),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Please Enter First Name";
-                        }
-                        return null;
-                      },
-                    ),
+                    Consumer<UserDetailsProvider>(
+                        builder: (context, value, child) {
+                      return TextFormField(
+                        controller: fnameText,
+                        decoration: InputDecoration(
+                            labelText: AppStrings.enterFName,
+                            hintText: AppStrings.enterFName,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            )),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Please Enter First Name";
+                          }
+                          return null;
+                        },
+                      );
+                    }),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: lnameText,
@@ -218,14 +236,10 @@ class _ProfileState extends State<Profile> {
         image != null
             ? CircleAvatar(
                 radius: 100,
-                // backgroundImage: MemoryImage(_image!),
                 backgroundImage: FileImage(File(image!.path)),
               )
-            : const CircleAvatar(
-                radius: 100,
-                backgroundImage: NetworkImage(
-                    "https://beforeigosolutions.com/pascale-atkinson/attachment/dummy-profile-pic-300x300-1/"),
-              ),
+            : CircleAvatar(
+                radius: 100, backgroundImage: NetworkImage(userData!.image!)),
         Positioned(
             bottom: 5,
             left: 140,
@@ -300,12 +314,7 @@ class _ProfileState extends State<Profile> {
     if (image != null) {
       setState(() {});
     }
-    // final returnImange = await picker.pickImage(source: ImageSource.gallery);
-    // setState(() {
-    //   if (returnImange == null) return;
-    //   selectedImage = File(returnImange.path);
-    //   _image = File(returnImange.path).readAsBytesSync();
-    // });
+
     Navigator.of(context).pop();
   }
 
@@ -315,13 +324,6 @@ class _ProfileState extends State<Profile> {
       setState(() {});
     }
 
-    // final returnImange = await ImagePicker().pickImage(source: ImageSource.camera);
-
-    // setState(() {
-    //   if (returnImange == null) return;
-    //   selectedImage = File(returnImange.path);
-    //   _image = File(returnImange.path).readAsBytesSync();
-    // });
     Navigator.of(context).pop();
   }
 }

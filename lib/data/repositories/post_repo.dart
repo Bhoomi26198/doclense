@@ -39,7 +39,7 @@ Future<Map<String, dynamic>> getUserListApi() async {
       return responseBody;
     }
   } catch (e) {
-    log("Error:: ${e}");
+    log("Error:: $e");
   }
   return {};
 }
@@ -76,7 +76,58 @@ Future<Map<String, dynamic>> updateUserprofile(
       return responseBody;
     }
   } catch (e) {
-    log("Error:: ${e}");
+    log("Error:: $e");
   }
   return {};
+}
+
+Future login(String email, String password) async {
+  var body = <String, dynamic>{
+    "email": email,
+    "password": password,
+  };
+  var headers = {'Content-Type': 'application/json'};
+  var request = http.Request(
+      'POST',
+      Uri.parse(
+          'https://600db83b-9b94-40e9-9ddb-8673c5a51c63.mock.pstmn.io/Login'));
+  request.body = json.encode(body);
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+
+  if (response.statusCode == 200) {
+    var responseBody = jsonDecode(await response.stream.bytesToString());
+    return responseBody;
+  } else {
+    var responseBody = jsonDecode(await response.stream.bytesToString());
+    return responseBody;
+  }
+
+  // try {
+  //   var body = <String, dynamic>{
+  //     "email": email,
+  //     "password": password,
+  //   };
+  //   log("message----$body");
+  //   Response response = await http.post(
+  //     Uri.parse(
+  //         "https://600db83b-9b94-40e9-9ddb-8673c5a51c63.mock.pstmn.io/Login_invalid"),
+  //     body: json.encode(body),
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   );
+  //   log("responseeeee---${response.body}");
+
+  //   if (response.statusCode == 200) {
+  //     var responseBody = jsonDecode(response.body);
+  //     return responseBody;
+  //   } else {
+  //     var responseBody = jsonDecode(response.body);
+  //     return responseBody;
+  //   }
+  // } catch (e) {
+  //   log("Error:: $e");
+  // }
 }

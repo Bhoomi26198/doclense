@@ -1,6 +1,8 @@
 import 'package:doclense/constants/app_strings.dart';
+import 'package:doclense/routing/routes.dart';
 import 'package:doclense/ui/contact.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -44,7 +46,6 @@ class LeftDrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => ContactPage()));
-
               // Navigator.pushNamed(context, Routes.contact);
             },
             leading: const Icon(
@@ -86,6 +87,21 @@ class LeftDrawer extends StatelessWidget {
             ),
             title: Text(
               AppStrings.setting,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          ListTile(
+            onTap: () async {
+              var prefs = await SharedPreferences.getInstance();
+              prefs.remove("email");
+              Navigator.pushNamed(context, Routes.login);
+            },
+            leading: const Icon(
+              Icons.logout,
+              color: Colors.black,
+            ),
+            title: const Text(
+              "Logout",
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),

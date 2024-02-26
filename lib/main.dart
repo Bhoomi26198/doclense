@@ -1,14 +1,14 @@
-// import 'package:doclense/blocs/internet_bloc/internet_bloc.dart';
-// import 'package:doclense/blocs/login/login_bloc.dart';
+import 'dart:developer';
+
 import 'package:doclense/providers/profile_provider.dart';
 import 'package:doclense/routing/router.dart';
 import 'package:doclense/ui/listItem.dart';
 import 'package:doclense/ui/login.dart';
 import 'package:doclense/ui/splash_screen.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -53,12 +53,38 @@ void main() {
 //   }
 // }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  static const String KEYNAME = "email";
+  var data = false;
+
+  @override
+  void initState() {
+    getValue();
+    super.initState();
+  }
+
+  void getValue() async {
+    var prefs = await SharedPreferences.getInstance();
+    var val = prefs.getString(KEYNAME);
+    setState(() {
+      data = val != null ? true : false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    log("data----$data");
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => ProfileProvider())
+        ChangeNotifierProvider(create: (context) => ProfileProvider()),
+        ChangeNotifierProvider(create: (context) => UserDetailsProvider())
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -66,8 +92,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(scaffoldBackgroundColor: Colors.blueGrey[100]),
         home: AnimatedSplashScreen(
           splash: const SplashScreen(),
-          nextScreen: Login(),
+          nextScreen: data ? HomePage() : Login(),
         ),
+        // initialRoute: Routes.splashScreen,
         onGenerateRoute: PageRoutes.onGenerateroute,
       ),
     );

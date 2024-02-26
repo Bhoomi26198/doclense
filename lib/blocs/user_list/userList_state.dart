@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:doclense/data/modals/userList_modal.dart';
 
 abstract class UserListState {}

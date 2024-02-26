@@ -1,10 +1,13 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:doclense/constants/app_strings.dart';
+import 'package:doclense/providers/counter_provider.dart';
 import 'package:doclense/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart';
+import 'package:provider/provider.dart';
 
 var emailText = TextEditingController();
 var numberText = TextEditingController();
@@ -14,6 +17,8 @@ Uint8List? _image;
 File? selectedImage;
 
 class DetailsPage extends StatefulWidget {
+  const DetailsPage({super.key});
+
   @override
   State<DetailsPage> createState() => _DetailsPageState();
 }
@@ -36,7 +41,42 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  // void onChange() {
+  //   if (sessiontoken == null) {
+  //     setState(() {
+  //       sessiontoken == uuid.v4();
+  //     });
+  //   }
+  //   getSuggestion(addressText.text);
+  // }
+
+  // void getSuggestion(String input) async {
+  //   String apiKey = 'AIzaSyAhYNNj3PyKRhz9uYxgBH0llDo9DqfqGP0';
+  //   String baseURL =
+  //       'https://maps.googleapis.com/maps/api/place/autocomplete/json';
+  //   String request =
+  //       '$baseURL?input=$input&key=$apiKey&sessiontoken=$sessiontoken';
+
+  //   var response = await http.get(Uri.parse(request));
+  //   var data = response.body.toString();
+  //   log("data---$data");
+  //   if (response.statusCode == 200) {
+  //     // setState(() {
+  //     //   placesList = jsonDecode(response.body.toString());
+  //     //   ['predictions'];
+  //     // });
+  //   } else {
+  //     throw Exception("Error");
+  //   }
+  // }
+
   Widget updateProfile() {
+    // final provider = Provider.of<SliderProvider>(context, listen: true);
     return Stack(
       children: [
         Container(
@@ -89,13 +129,11 @@ class _DetailsPageState extends State<DetailsPage> {
               Positioned(
                 bottom: 11,
                 right: 11,
-                child: Container(
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, Routes.userList);
-                      },
-                      child: Text(AppStrings.submit)),
-                ),
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.userList);
+                    },
+                    child: Text(AppStrings.submit)),
               ),
             ],
           ),
