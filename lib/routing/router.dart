@@ -2,6 +2,7 @@ import 'package:doclense/routing/routes.dart';
 import 'package:doclense/ui/categoryDetail.dart';
 import 'package:doclense/ui/contact.dart';
 import 'package:doclense/ui/details_page.dart';
+import 'package:doclense/ui/googleMap.dart';
 import 'package:doclense/ui/listItem.dart';
 import 'package:doclense/ui/login.dart';
 import 'package:doclense/ui/splash_screen.dart';
@@ -23,6 +24,8 @@ class PageRoutes {
       case Routes.categoryDetails:
         return _getMaterialPageRoute(
             CategoryDetails(item: settings.arguments as Object));
+      case Routes.googleMap:
+        return _getMaterialPageRoute(GoogleMaps());
       default:
         return MaterialPageRoute(
           builder: (BuildContext context) => Container(),

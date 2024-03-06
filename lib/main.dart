@@ -80,10 +80,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    log("data----$data");
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => ProfileProvider()),
         ChangeNotifierProvider(create: (context) => UserDetailsProvider())
       ],
       child: MaterialApp(
@@ -98,31 +96,5 @@ class _MyAppState extends State<MyApp> {
         onGenerateRoute: PageRoutes.onGenerateroute,
       ),
     );
-  }
-}
-
-class NavigationService {
-  GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
-
-  static NavigationService instance = NavigationService();
-
-  NavigationService() {
-    navigationKey = GlobalKey<NavigatorState>();
-  }
-
-  Future<dynamic> navigateToReplacement(String rn) {
-    return navigationKey.currentState!.pushReplacementNamed(rn);
-  }
-
-  Future<dynamic> navigateTo(String rn) {
-    return navigationKey.currentState!.pushNamed(rn);
-  }
-
-  Future<dynamic> navigateToRoute(MaterialPageRoute rn) {
-    return navigationKey.currentState!.push(rn);
-  }
-
-  goback() {
-    return navigationKey.currentState!.pop();
   }
 }

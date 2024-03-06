@@ -1,4 +1,5 @@
 import 'package:doclense/constants/app_strings.dart';
+import 'package:doclense/widget/common.dart';
 import 'package:flutter/material.dart';
 
 var arrayNames = [
@@ -31,11 +32,7 @@ class Notifications extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(AppStrings.notification),
-          centerTitle: true,
-          backgroundColor: Colors.blueGrey,
-        ),
+        appBar: customAppBar(AppStrings.notification),
         body: SizedBox(
             child: Container(
           margin: const EdgeInsets.all(12),

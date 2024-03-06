@@ -9,21 +9,9 @@ import 'package:doclense/ui/leftDrawer.dart';
 
 import 'package:doclense/ui/notifications.dart';
 import 'package:doclense/ui/profile.dart';
+import 'package:doclense/widget/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-var arrayNames = [
-  'Bhoomi',
-  'Minhaz',
-  'Jignesh',
-  'Ritesh',
-  'Deep',
-  'Divyesh',
-  'Ridham',
-  'Muskan',
-  'Yash',
-  'Bhavin',
-];
 
 var images = [
   'assets/images/woman.png',
@@ -109,18 +97,13 @@ class _ListItemsState extends State<ListItems> {
   @override
   void initState() {
     super.initState();
-    // PostRepository().fetchPosts();
     userListbloc.add(GetUserListEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(AppStrings.home),
-          centerTitle: true,
-          backgroundColor: Colors.blueGrey,
-        ),
+        appBar: customAppBar(AppStrings.home),
         drawer: const LeftDrawer(),
         body: SizedBox(
             child: Container(
@@ -134,50 +117,47 @@ class _ListItemsState extends State<ListItems> {
               } else if (state is UserListErrorState) {}
             },
             builder: (context, state) {
-              if (isLoading) {
-                const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.red,
+              return Stack(children: [
+                if (state is UserListLoadingState)
+                  const Center(
+                    child: CircularProgressIndicator(),
                   ),
-                );
-              }
-              if (state is UserListSuccessState) {
-                return ListView.separated(
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: SizedBox(
-                        height: 50,
-                        width: 50,
-                        child: CircleAvatar(
-                            backgroundImage: AssetImage(
-                          images[index].toString(),
-                        )),
-                      ),
-                      title: Text(
-                        state.userListModal![index]!.name!,
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'FontMain'),
-                      ),
-                      onTap: () {
-                        Navigator.pushNamed(context, Routes.detailsPage);
-                      },
-                      subtitle: Text(state.userListModal![index]!.statusText!),
-                      trailing: const Icon(Icons.add),
-                    );
-                  },
-                  itemCount: state.userListModal!.length,
-                  separatorBuilder: (context, index) {
-                    return const Divider(
-                      height: 20,
-                      thickness: 2,
-                    );
-                  },
-                );
-              } else {
-                return Container();
-              }
+                if (state is UserListSuccessState)
+                  ListView.separated(
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: CircleAvatar(
+                              backgroundImage: AssetImage(
+                            images[index].toString(),
+                          )),
+                        ),
+                        title: Text(
+                          state.userListModal![index]!.name!,
+                          style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'FontMain'),
+                        ),
+                        onTap: () {
+                          Navigator.pushNamed(context, Routes.detailsPage);
+                        },
+                        subtitle:
+                            Text(state.userListModal![index]!.statusText!),
+                        trailing: const Icon(Icons.add),
+                      );
+                    },
+                    itemCount: state.userListModal!.length,
+                    separatorBuilder: (context, index) {
+                      return const Divider(
+                        height: 20,
+                        thickness: 2,
+                      );
+                    },
+                  ),
+              ]);
             },
           ),
         )));

@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class UserListbloc extends Bloc<UserListEvent, UserListState> {
   UserListbloc() : super(UserListIntial()) {
     on<GetUserListEvent>((event, emit) async {
+      emit(UserListLoadingState());
       List<UserListModal> list = [];
       try {
         ResponseModel responseModel =

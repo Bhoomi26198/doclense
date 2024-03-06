@@ -101,64 +101,71 @@ class _LoginState extends State<Login> {
             }
           },
           builder: (context, state) {
-            return Center(
-                child: Container(
-                    width: 300,
-                    margin: const EdgeInsets.only(top: 12),
-                    child: Form(
-                      key: formKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            controller: emailText,
-                            decoration: InputDecoration(
-                                labelText: AppStrings.enterEmail,
-                                hintText: AppStrings.enterEmail,
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    borderSide: const BorderSide(
-                                        color: Colors.deepOrange))),
-                            validator: validateEmail,
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          TextFormField(
-                            controller: passwordText,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                                labelText: AppStrings.enterPassword,
-                                hintText: AppStrings.enterPassword,
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    borderSide: const BorderSide(
-                                        color: Colors.deepOrange)),
-                                suffixIcon: IconButton(
-                                  icon: const Icon(Icons.remove_red_eye),
-                                  onPressed: () {},
+            return Stack(
+              children: [
+                Center(
+                  child: Container(
+                      width: 300,
+                      margin: const EdgeInsets.only(top: 12),
+                      child: Form(
+                        key: formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              controller: emailText,
+                              decoration: InputDecoration(
+                                  labelText: AppStrings.enterEmail,
+                                  hintText: AppStrings.enterEmail,
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      borderSide: const BorderSide(
+                                          color: Colors.deepOrange))),
+                              validator: validateEmail,
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            TextFormField(
+                              controller: passwordText,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                  labelText: AppStrings.enterPassword,
+                                  hintText: AppStrings.enterPassword,
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      borderSide: const BorderSide(
+                                          color: Colors.deepOrange)),
+                                  suffixIcon: IconButton(
+                                    icon: const Icon(Icons.remove_red_eye),
+                                    onPressed: () {},
+                                  )),
+                              validator: validatPassword,
+                            ),
+                            Container(
+                                margin: const EdgeInsets.only(top: 12),
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    var prefs =
+                                        await SharedPreferences.getInstance();
+                                    prefs.setString(KEYNAME, emailText.text);
+                                    submitForm(context);
+                                  },
+                                  child: Text(
+                                    AppStrings.login,
+                                    style: const TextStyle(fontSize: 18),
+                                  ),
                                 )),
-                            validator: validatPassword,
-                          ),
-                          Container(
-                              margin: const EdgeInsets.only(top: 12),
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  var email = emailText.text;
-                                  var prefs =
-                                      await SharedPreferences.getInstance();
-                                  prefs.setString(KEYNAME, email);
-                                  submitForm(context);
-                                },
-                                child: Text(
-                                  AppStrings.login,
-                                  style: const TextStyle(fontSize: 18),
-                                ),
-                              )),
-                        ],
-                      ),
-                    )));
+                            if (state is SignInLoadingState)
+                              const Center(
+                                  child: const CircularProgressIndicator()),
+                          ],
+                        ),
+                      )),
+                ),
+              ],
+            );
           },
         ));
   }

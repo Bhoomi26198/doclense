@@ -6,10 +6,13 @@ import 'package:doclense/blocs/updateProfile/updateProfile_state.dart';
 import 'package:doclense/constants/app_strings.dart';
 import 'package:doclense/data/modals/login_modal.dart';
 import 'package:doclense/providers/profile_provider.dart';
+import 'package:doclense/routing/routes.dart';
+import 'package:doclense/widget/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 var fnameText = TextEditingController();
 var lnameText = TextEditingController();
@@ -38,8 +41,9 @@ class _ProfileState extends State<Profile> {
   }
 
   getUserProfile() {
-    userData =
-        Provider.of<UserDetailsProvider>(context, listen: false).userDetails;
+    // userData =
+    //     Provider.of<UserDetailsProvider>(context, listen: false).userDetails;
+    userData = context.read<UserDetailsProvider>().userDetails;
     fnameText.text = userData!.fname!;
     lnameText.text = userData!.lname!;
     emailText.text = userData!.email!;
@@ -47,6 +51,7 @@ class _ProfileState extends State<Profile> {
   }
 
   void submitForm() {
+    setValue();
     if (formKey.currentState!.validate()) {
       updateProfileBloc.add(UpdateProfileEvent(
           image: image != null ? image!.path : "",
@@ -54,6 +59,11 @@ class _ProfileState extends State<Profile> {
           lastname: lnameText.text,
           email: emailText.text));
     }
+  }
+
+  setValue() async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setString("fname", fnameText.text);
   }
 
   String? validateEmail(value) {
@@ -71,11 +81,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppStrings.userProfile),
-        centerTitle: true,
-        backgroundColor: Colors.blueGrey,
-      ),
+      appBar: customAppBar(AppStrings.userProfile),
       body: SafeArea(
           child: Stack(
         children: [
@@ -86,7 +92,6 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget updateProfile(BuildContext context) {
-    // final provider = Provider.of<ProfileProvider>(context, listen: true);
     return BlocConsumer<UpdateProfileBloc, UpdateProfileState>(
       bloc: updateProfileBloc,
       listener: (context, state) {
@@ -213,6 +218,13 @@ class _ProfileState extends State<Profile> {
                     //   width: 370,
                     // ),
                     const SizedBox(height: 16),
+                    // Positioned(
+                    //     child: ElevatedButton(
+                    //         child: const Text("Map"),
+                    //         onPressed: () {
+                    //           Navigator.pushNamed(context, Routes.googleMap);
+                    //         })),
+
                     Positioned(
                       bottom: 11,
                       right: 11,
@@ -238,8 +250,9 @@ class _ProfileState extends State<Profile> {
                 radius: 100,
                 backgroundImage: FileImage(File(image!.path)),
               )
-            : CircleAvatar(
-                radius: 100, backgroundImage: NetworkImage(userData!.image!)),
+            : const CircleAvatar(
+                radius: 100,
+                backgroundImage: NetworkImage("https://picsum.photos/500/500")),
         Positioned(
             bottom: 5,
             left: 140,
@@ -310,11 +323,10 @@ class _ProfileState extends State<Profile> {
 
   Future pickImageFromGallery() async {
     image = await picker.pickImage(source: ImageSource.gallery);
-
     if (image != null) {
       setState(() {});
     }
-
+    // ignore: use_build_context_synchronously
     Navigator.of(context).pop();
   }
 
@@ -323,7 +335,7 @@ class _ProfileState extends State<Profile> {
     if (image != null) {
       setState(() {});
     }
-
+    // ignore: use_build_context_synchronously
     Navigator.of(context).pop();
   }
 }

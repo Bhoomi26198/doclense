@@ -37,6 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     var user = await PreferencesHelper.getUserDetails();
     if (data) {
+      // ignore: use_build_context_synchronously
       Provider.of<UserDetailsProvider>(context, listen: false)
           .setUserDetails(user!);
     }

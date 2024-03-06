@@ -1,13 +1,10 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:doclense/constants/app_strings.dart';
-import 'package:doclense/providers/counter_provider.dart';
 import 'package:doclense/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
 
 var emailText = TextEditingController();
 var numberText = TextEditingController();

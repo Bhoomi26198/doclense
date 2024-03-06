@@ -5,4 +5,5 @@ class Routes {
   static const String userList = "userList";
   static const String detailsPage = "detailsPage";
   static const String categoryDetails = "categoryDetail";
+  static const String googleMap = "googleMap";
 }

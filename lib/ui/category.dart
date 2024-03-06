@@ -2,8 +2,10 @@ import 'dart:developer';
 
 import 'package:doclense/constants/app_strings.dart';
 import 'package:doclense/routing/routes.dart';
+import 'package:doclense/widget/common.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Category extends StatefulWidget {
   const Category({super.key});
@@ -13,6 +15,7 @@ class Category extends StatefulWidget {
 }
 
 class _CategoryState extends State<Category> {
+  var data;
   List images = [
     {
       "id": 1,
@@ -47,24 +50,39 @@ class _CategoryState extends State<Category> {
   final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
 
+  initState() {
+    super.initState();
+    setValue();
+  }
+
+  setValue() async {
+    var prefs = await SharedPreferences.getInstance();
+    var val = prefs.getString("fname");
+    log("val---$val");
+    setState(() {
+      data = val;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppStrings.category),
-        centerTitle: true,
-        backgroundColor: Colors.blueGrey,
-      ),
+      appBar: customAppBar(AppStrings.category),
       body: Column(children: [
+        const SizedBox(
+          height: 20,
+        ),
+        Text(
+          "Hello ${data.toString()}!!!",
+          style: const TextStyle(fontSize: 20),
+        ),
         const SizedBox(
           height: 20,
         ),
         Stack(
           children: [
             InkWell(
-              onTap: () {
-                log("message----$currentIndex");
-              },
+              onTap: () {},
               child: CarouselSlider(
                   items: images
                       .map((item) => InkWell(
@@ -74,7 +92,6 @@ class _CategoryState extends State<Category> {
                                 Routes.categoryDetails,
                                 arguments: item,
                               );
-                              log("message----$currentIndex");
                             },
                             child: ClipRRect(
                               borderRadius:
